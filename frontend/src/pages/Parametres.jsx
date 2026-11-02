@@ -145,10 +145,10 @@ function DeuxFacteurs({ profil, setProfil, admin }) {
   }
 
   const telechargerCodes = () => {
-    const blob = new Blob([`Codes de secours QR Card (${profil.email})\n\n${codesSecours.join('\n')}\n`], { type: 'text/plain' })
+    const blob = new Blob([`Codes de secours MadeQrCard (${profil.email})\n\n${codesSecours.join('\n')}\n`], { type: 'text/plain' })
     const a = document.createElement('a')
     a.href = URL.createObjectURL(blob)
-    a.download = 'codes-secours-qrcard.txt'
+    a.download = 'codes-secours-madeqrcard.txt'
     a.click()
     URL.revokeObjectURL(a.href)
   }

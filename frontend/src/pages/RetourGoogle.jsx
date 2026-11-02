@@ -18,7 +18,7 @@ export default function RetourGoogle() {
     const token = params.get('token')
     const mfa = params.get('mfa')
     if (mfa) {
-      session.ecrire('qrcard_mfa', mfa)
+      session.ecrire('madeqrcard_mfa', mfa)
       naviguer('/connexion/code', { replace: true })
     } else if (token) {
       connecter(token).then((profil) => naviguer(destination(profil), { replace: true }))

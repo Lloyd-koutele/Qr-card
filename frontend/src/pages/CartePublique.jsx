@@ -27,7 +27,7 @@ export default function CartePublique() {
       <div className="etroit" style={{ textAlign: 'center', paddingTop: 40 }}>
         <h1>Carte indisponible</h1>
         <p className="sous-titre">Ce lien n'existe pas ou n'est plus actif.</p>
-        <Link to="/" className="bouton">Découvrir QR Card</Link>
+        <Link to="/" className="bouton">Découvrir MadeQrCard</Link>
       </div>
     )
   }
@@ -44,7 +44,7 @@ export default function CartePublique() {
     }
   }
 
-  const memoriserRetour = () => session.ecrire('qrcard_retour', `/c/${jeton}`)
+  const memoriserRetour = () => session.ecrire('madeqrcard_retour', `/c/${jeton}`)
   const nomComplet = [carte.prenom, carte.nom].filter(Boolean).join(' ')
 
   return (

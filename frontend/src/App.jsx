@@ -19,7 +19,7 @@ function Protege({ children, role }) {
   const lieu = useLocation()
   if (chargement) return <div className="chargement">Chargement…</div>
   if (!profil) {
-    session.ecrire('qrcard_retour', lieu.pathname)
+    session.ecrire('madeqrcard_retour', lieu.pathname)
     return <Navigate to="/connexion" replace />
   }
   // Un admin doit d'abord changer son mot de passe et activer la 2FA

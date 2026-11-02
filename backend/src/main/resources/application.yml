@@ -8,11 +8,11 @@ server:
 
 spring:
   application:
-    name: qrcard-api
+    name: madeqrcard-api
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/qrcard}
-    username: ${DB_USER:qrcard}
-    password: ${DB_PASSWORD:qrcard}
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/madeqrcard}
+    username: ${DB_USER:madeqrcard}
+    password: ${DB_PASSWORD:madeqrcard}
   jpa:
     open-in-view: false
     hibernate:

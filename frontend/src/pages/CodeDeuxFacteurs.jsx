@@ -5,7 +5,7 @@ import { api, session } from '../api'
 import { destination, useAuth } from '../auth'
 
 export default function CodeDeuxFacteurs() {
-  const mfaToken = session.lire('qrcard_mfa')
+  const mfaToken = session.lire('madeqrcard_mfa')
   const [code, setCode] = useState('')
   const [erreur, setErreur] = useState('')
   const [envoi, setEnvoi] = useState(false)
@@ -21,12 +21,12 @@ export default function CodeDeuxFacteurs() {
     setEnvoi(true)
     try {
       const r = await api('/api/auth/2fa', { methode: 'POST', corps: { mfaToken, code } })
-      session.effacer('qrcard_mfa')
+      session.effacer('madeqrcard_mfa')
       const profil = await connecter(r.token)
       naviguer(destination(profil), { replace: true })
     } catch (err) {
       if (err.statut === 401 && err.message.startsWith('Session')) {
-        session.effacer('qrcard_mfa')
+        session.effacer('madeqrcard_mfa')
         naviguer('/connexion', { replace: true })
         return
       }

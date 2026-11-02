@@ -11,10 +11,10 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.qrcard</groupId>
-    <artifactId>qrcard-api</artifactId>
+    <groupId>made</groupId>
+    <artifactId>madeqrcard-api</artifactId>
     <version>0.1.0</version>
-    <name>QR Card API</name>
+    <name>MadeQrCard API</name>
 
     <properties>
         <java.version>21</java.version>
@@ -89,7 +89,7 @@
     </dependencies>
 
     <build>
-        <finalName>qrcard-api</finalName>
+        <finalName>madeqrcard-api</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

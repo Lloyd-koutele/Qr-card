@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
 
   const deconnecter = useCallback(() => {
     jetonStocke.effacer()
-    session.effacer('qrcard_mfa')
+    session.effacer('madeqrcard_mfa')
     setProfil(null)
   }, [])
 
@@ -49,7 +49,7 @@ export const useAuth = () => useContext(AuthContexte)
 
 /** Page d'arrivee apres connexion : la page memorisee, sinon l'espace du role. */
 export function destination(profil) {
-  const retour = session.lire('qrcard_retour')
+  const retour = session.lire('madeqrcard_retour')
   if (profil?.securiteRequise) return '/parametres'
   if (retour && retour.startsWith('/')) return retour
   return profil?.role === 'SUPER_ADMIN' ? '/admin' : '/ma-carte'

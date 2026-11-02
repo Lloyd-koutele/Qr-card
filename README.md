@@ -1,4 +1,4 @@
-# QR Card
+# MadeQrCard
 
 Cartes de visite numériques au format carte d'identité, partagées par QR code.
 
@@ -50,15 +50,15 @@ Le bouton « Continuer avec Google » n'apparaît que si ces deux valeurs sont r
    (liste de sécurité du réseau **et** pare-feu de la VM).
 2. Installer Docker : `curl -fsSL https://get.docker.com | sh`.
 3. Faire pointer le nom de domaine (enregistrement A) vers l'IP publique de la VM.
-4. Copier le projet dans `/opt/qrcard`, créer `.env` avec :
+4. Copier le projet dans `/opt/madeqrcard`, créer `.env` avec :
    ```
-   APP_URL=https://qrcard.mon-domaine.com
-   SITE_ADDRESS=qrcard.mon-domaine.com
+   APP_URL=https://madeqrcard.mon-domaine.com
+   SITE_ADDRESS=madeqrcard.mon-domaine.com
    HTTP_PORT=80
    HTTPS_PORT=443
    ```
 5. `docker compose up -d --build` : Caddy obtient le certificat HTTPS automatiquement.
-6. Sauvegarde quotidienne (crontab) : `0 3 * * * cd /opt/qrcard && ./scripts/sauvegarde.sh`,
+6. Sauvegarde quotidienne (crontab) : `0 3 * * * cd /opt/madeqrcard && ./scripts/sauvegarde.sh`,
    puis copier le dossier `backups/` hors du serveur (Cloudflare R2, par exemple).
 
 Derrière Cloudflare (proxy activé), décommenter `trusted_proxies cloudflare` dans

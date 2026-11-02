@@ -1,4 +1,4 @@
-const CLE_JETON = 'qrcard_jeton'
+const CLE_JETON = 'madeqrcard_jeton'
 
 // Le stockage du navigateur peut etre indisponible (navigation privee stricte)
 export const jetonStocke = {

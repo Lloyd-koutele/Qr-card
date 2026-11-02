@@ -31,7 +31,7 @@ export default function Connexion() {
     try {
       const r = await api('/api/auth/connexion', { methode: 'POST', corps: { email, motDePasse } })
       if (r.mfaRequis) {
-        session.ecrire('qrcard_mfa', r.mfaToken)
+        session.ecrire('madeqrcard_mfa', r.mfaToken)
         naviguer('/connexion/code')
       } else {
         const profil = await connecter(r.token)

@@ -12,7 +12,7 @@ export default function Layout() {
 
   // La page memorisee avant la connexion est oubliee une fois atteinte
   useEffect(() => {
-    if (profil && session.lire('qrcard_retour') === lieu.pathname) session.effacer('qrcard_retour')
+    if (profil && session.lire('madeqrcard_retour') === lieu.pathname) session.effacer('madeqrcard_retour')
   }, [profil, lieu.pathname])
 
   const sortir = () => {
@@ -25,7 +25,7 @@ export default function Layout() {
       <header className="barre">
         <NavLink to="/" className="logo">
           <span className="logo-icone"><IconQrcode size={20} stroke={2} /></span>
-          <span className="logo-texte">QR Card</span>
+          <span className="logo-texte">MadeQrCard</span>
         </NavLink>
         <nav className="nav">
           {profil ? (

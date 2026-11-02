@@ -35,7 +35,7 @@ export default function CarteIdentite({ carte, retournee = false, surRetourner, 
           <div className="cercle grand" />
           <div className="cercle petit" />
           <div className="bandeau">
-            <span className="marque">QR Card</span>
+            <span className="marque">MadeQrCard</span>
             <span>Carte personnelle</span>
           </div>
           <div className="liseret" />

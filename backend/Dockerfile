@@ -8,9 +8,9 @@ RUN mvn -q -B package -DskipTests
 
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-RUN addgroup -S qrcard && adduser -S qrcard -G qrcard
-COPY --from=build /app/target/qrcard-api.jar app.jar
-USER qrcard
+RUN addgroup -S madeqrcard && adduser -S madeqrcard -G madeqrcard
+COPY --from=build /app/target/madeqrcard-api.jar app.jar
+USER madeqrcard
 EXPOSE 8080
 ENV JAVA_OPTS="-XX:MaxRAMPercentage=75 -XX:+UseSerialGC"
 ENTRYPOINT ["sh", "-c", "exec java $JAVA_OPTS -jar app.jar"]

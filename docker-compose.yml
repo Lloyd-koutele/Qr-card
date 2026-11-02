@@ -1,31 +1,31 @@
-name: qrcard
+name: madeqrcard
 
 services:
   db:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_DB: qrcard
-      POSTGRES_USER: qrcard
+      POSTGRES_DB: madeqrcard
+      POSTGRES_USER: madeqrcard
       POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD manquant dans .env}
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U qrcard -d qrcard"]
+      test: ["CMD-SHELL", "pg_isready -U madeqrcard -d madeqrcard"]
       interval: 5s
       timeout: 5s
       retries: 20
 
   api:
     build: ./backend
-    image: qrcard-api:latest
+    image: madeqrcard-api:latest
     restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy
     environment:
-      DB_URL: jdbc:postgresql://db:5432/qrcard
-      DB_USER: qrcard
+      DB_URL: jdbc:postgresql://db:5432/madeqrcard
+      DB_USER: madeqrcard
       DB_PASSWORD: ${DB_PASSWORD}
       JWT_SECRET: ${JWT_SECRET:?JWT_SECRET manquant dans .env}
       APP_CLE_CHIFFREMENT: ${APP_CLE_CHIFFREMENT:?APP_CLE_CHIFFREMENT manquant dans .env}
@@ -44,7 +44,7 @@ services:
 
   web:
     build: ./frontend
-    image: qrcard-web:latest
+    image: madeqrcard-web:latest
     restart: unless-stopped
     depends_on:
       - api
