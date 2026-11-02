@@ -3,7 +3,7 @@
 Cartes de visite numériques au format carte d'identité, partagées par QR code.
 
 - **Client** : React (Vite), servi par Caddy
-- **Serveur** : Spring Boot 3 (Java 21), JWT, connexion Google, double authentification (TOTP)
+- **Serveur** : Spring Boot 3 (Java 21, Gradle), JWT, connexion Google, double authentification (TOTP)
 - **Base** : PostgreSQL 16, migrations Flyway
 
 ## Lancer en local
@@ -19,8 +19,10 @@ Au premier démarrage, le compte administrateur est créé avec `ADMIN_EMAIL` et
 À sa première connexion, il doit changer ce mot de passe puis activer la double authentification
 (Google Authenticator, Microsoft Authenticator ou Authy) avant d'accéder à l'administration.
 
-Développement sans Docker pour le front : `cd frontend && npm install && npm run dev`
-(le serveur de Vite transmet `/api` à `localhost:8080`).
+Développement sans Docker :
+- API : `cd backend && ./gradlew bootRun` (Java 21 est téléchargé automatiquement si besoin ;
+  les variables `DB_URL`, `JWT_SECRET`, `APP_CLE_CHIFFREMENT`… doivent être définies) ;
+- front : `cd frontend && npm install && npm run dev` (Vite transmet `/api` à `localhost:8080`).
 
 ## Fonctionnement
 

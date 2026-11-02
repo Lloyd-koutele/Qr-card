@@ -1,15 +1,16 @@
 # Images multi-architectures : fonctionne sur ARM (Oracle Always Free) comme sur x86
-FROM maven:3.9-eclipse-temurin-21 AS build
+FROM eclipse-temurin:21-jdk-alpine AS build
 WORKDIR /app
-COPY pom.xml .
-RUN mvn -q -B dependency:go-offline
+COPY gradlew settings.gradle build.gradle ./
+COPY gradle ./gradle
 COPY src ./src
-RUN mvn -q -B package -DskipTests
+# Cache Gradle conserve entre les builds : les dependances ne sont telechargees qu'une fois
+RUN --mount=type=cache,target=/root/.gradle ./gradlew bootJar --no-daemon -q
 
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 RUN addgroup -S madeqrcard && adduser -S madeqrcard -G madeqrcard
-COPY --from=build /app/target/madeqrcard-api.jar app.jar
+COPY --from=build /app/build/libs/madeqrcard-api.jar app.jar
 USER madeqrcard
 EXPOSE 8080
 ENV JAVA_OPTS="-XX:MaxRAMPercentage=75 -XX:+UseSerialGC"
