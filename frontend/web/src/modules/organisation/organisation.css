@@ -1,0 +1,21 @@
+/* ---------- Organisation ---------- */
+.entete-organisation { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
+.entete-organisation h1 { margin: 0; }
+.logo-organisation { width: 56px; height: 56px; object-fit: contain; border-radius: 10px; border: 1px solid var(--bord); background: #fff; flex-shrink: 0; }
+.formulaire-organisation { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 24px; align-items: start; }
+@media (max-width: 860px) { .formulaire-organisation { grid-template-columns: 1fr; } }
+.choix-couleur { display: flex; align-items: center; gap: 10px; }
+.choix-couleur input[type='color'] { width: 48px; height: 36px; padding: 2px; flex-shrink: 0; cursor: pointer; }
+.liste-garanties { margin: 0; padding-left: 18px; color: var(--texte-2); font-size: 14px; display: grid; gap: 4px; }
+.adresses-multiples summary { cursor: pointer; color: var(--texte-2); font-size: 14px; }
+.adresses-multiples textarea { margin-top: 8px; width: 100%; min-height: 96px; }
+.titre-compte { margin: 8px 0 0; padding-top: 16px; border-top: 1px solid var(--bord); font-size: 16px; }
+.liste-organisations { display: grid; gap: 10px; }
+.tuile-organisation { display: flex; align-items: center; gap: 14px; padding: 14px 16px; text-decoration: none; color: var(--texte); }
+.tuile-organisation:hover { border-color: var(--texte-2); }
+.panneau + .panneau.tuile-organisation { margin-top: 0; }
+.pastille-organisation { display: grid; place-items: center; width: 44px; height: 44px; flex-shrink: 0; border-radius: 10px; font-weight: 700; font-size: 18px; overflow: hidden; }
+.pastille-organisation img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
+.tuile-texte { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.tuile-texte strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lien-retour { display: inline-block; margin-bottom: 8px; text-decoration: none; }

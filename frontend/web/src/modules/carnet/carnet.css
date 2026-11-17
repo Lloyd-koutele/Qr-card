@@ -1,0 +1,3 @@
+/* ---------- Carnet ---------- */
+.grille-carnet { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.element-carnet { display: flex; flex-direction: column; gap: 10px; }

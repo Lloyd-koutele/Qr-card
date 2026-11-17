@@ -1,0 +1,43 @@
+{
+	admin off
+	# Proxy local (Traefik) : garder le https et la vraie IP qu'il transmet.
+	# Derriere Cloudflare, remplacer par : trusted_proxies cloudflare
+	servers {
+		trusted_proxies static private_ranges
+	}
+}
+
+# Local : SITE_ADDRESS=:80 (HTTP). Production : SITE_ADDRESS=mon-domaine.com
+# (Caddy obtient alors automatiquement le certificat HTTPS).
+{$SITE_ADDRESS::80} {
+	encode zstd gzip
+
+	header {
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		-Server
+	}
+
+	@api path /api/* /oauth2/* /login/oauth2/* /actuator/health
+	handle @api {
+		reverse_proxy madeqrcard-app:8080
+	}
+
+	handle {
+		root * /srv
+
+		@carte path /c/*
+		header @carte X-Robots-Tag "noindex, nofollow"
+
+		@assets path /assets/*
+		header @assets Cache-Control "public, max-age=31536000, immutable"
+
+		@page not path /assets/*
+		header @page Cache-Control "no-cache"
+
+		try_files {path} /index.html
+		file_server
+	}
+}

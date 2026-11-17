@@ -1,9 +1,10 @@
 .env
 backups/
 node_modules/
-frontend/dist/
+frontend/web/dist/
 backend/build/
 backend/.gradle/
 .DS_Store
 .idea/
 *.iml
+traefik/certs/

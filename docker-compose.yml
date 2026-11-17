@@ -1,7 +1,7 @@
 name: madeqrcard
 
 services:
-  db:
+  postgres:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
@@ -16,15 +16,15 @@ services:
       timeout: 5s
       retries: 20
 
-  api:
+  madeqrcard-app:
     build: ./backend
     image: madeqrcard-api:latest
     restart: unless-stopped
     depends_on:
-      db:
+      postgres:
         condition: service_healthy
     environment:
-      DB_URL: jdbc:postgresql://db:5432/madeqrcard
+      DB_URL: jdbc:postgresql://postgres:5432/madeqrcard
       DB_USER: madeqrcard
       DB_PASSWORD: ${DB_PASSWORD}
       JWT_SECRET: ${JWT_SECRET:?JWT_SECRET manquant dans .env}
@@ -34,6 +34,13 @@ services:
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      MAIL_HOST: ${MAIL_HOST:-}
+      MAIL_PORT: ${MAIL_PORT:-587}
+      MAIL_USERNAME: ${MAIL_USERNAME:-}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      MAIL_SMTP_AUTH: ${MAIL_SMTP_AUTH:-true}
+      MAIL_STARTTLS: ${MAIL_STARTTLS:-true}
+      MAIL_FROM: ${MAIL_FROM:-MadeQrCard <noreply@madeqrcard.sn>}
       JAVA_OPTS: ${JAVA_OPTS:--XX:MaxRAMPercentage=75 -XX:+UseSerialGC}
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health | grep -q UP"]
@@ -42,12 +49,12 @@ services:
       start_period: 60s
       retries: 10
 
-  web:
-    build: ./frontend
+  madeqrcard-web:
+    build: ./frontend/web
     image: madeqrcard-web:latest
     restart: unless-stopped
     depends_on:
-      - api
+      - madeqrcard-app
     environment:
       SITE_ADDRESS: ${SITE_ADDRESS:-:80}
     ports:
@@ -56,6 +63,33 @@ services:
     volumes:
       - caddy_data:/data
       - caddy_config:/config
+
+  # Point d'entree HTTPS (https://madeqrcard.sn) : redirige le HTTP vers le HTTPS et
+  # transmet au client web, qui sert les pages et relaie l'API au serveur.
+  traefik:
+    image: traefik:v3.2
+    restart: unless-stopped
+    depends_on:
+      - madeqrcard-web
+    ports:
+      - "${TRAEFIK_HTTP_PORT:-80}:80"
+      - "${TRAEFIK_HTTPS_PORT:-443}:443"
+    volumes:
+      - ./traefik/dynamic.yml:/etc/traefik/dynamic/dynamic.yml:ro
+      - ./traefik/certs:/etc/traefik/certs:ro
+    command:
+      - "--providers.file.directory=/etc/traefik/dynamic"
+      - "--providers.file.watch=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--ping=true"
+    healthcheck:
+      test: ["CMD", "traefik", "healthcheck", "--ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 volumes:
   pgdata:

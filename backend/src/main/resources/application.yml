@@ -19,12 +19,28 @@ spring:
       ddl-auto: validate
   flyway:
     enabled: true
+  mail:
+    # Vide : pas d'envoi, le message est ecrit dans les logs (developpement)
+    host: ${MAIL_HOST:}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail.smtp.auth: ${MAIL_SMTP_AUTH:true}
+      mail.smtp.starttls.enable: ${MAIL_STARTTLS:true}
+      mail.smtp.connectiontimeout: 10000
+      mail.smtp.timeout: 10000
+      mail.smtp.writetimeout: 10000
   servlet:
     multipart:
       max-file-size: 2MB
       max-request-size: 2MB
 
 management:
+  health:
+    # Une panne du fournisseur d'emails ne doit pas faire redemarrer l'API
+    mail:
+      enabled: false
   endpoints:
     web:
       exposure:
@@ -41,3 +57,4 @@ app:
   admin-mot-de-passe: ${ADMIN_PASSWORD:}
   google-client-id: ${GOOGLE_CLIENT_ID:}
   google-client-secret: ${GOOGLE_CLIENT_SECRET:}
+  mail-expediteur: ${MAIL_FROM:MadeQrCard <noreply@madeqrcard.sn>}

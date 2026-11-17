@@ -1,3 +1,8 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    // Gradle 8.10 ne tourne pas sur le Java 25 embarque par l'extension Java :
+    // on lance Gradle avec le JDK 17 du Mac. Le code est compile en Java 21
+    // (toolchain de build.gradle, telechargee automatiquement).
+    "java.import.gradle.java.home": "/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home",
+    "java.compile.nullAnalysis.mode": "automatic"
 }

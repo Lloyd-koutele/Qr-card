@@ -1,0 +1,60 @@
+server:
+  port: 8080
+  forward-headers-strategy: framework
+  servlet:
+    session:
+      cookie:
+        same-site: lax
+
+spring:
+  application:
+    name: madeqrcard-api
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/madeqrcard}
+    username: ${DB_USER:madeqrcard}
+    password: ${DB_PASSWORD:madeqrcard}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+  mail:
+    # Vide : pas d'envoi, le message est ecrit dans les logs (developpement)
+    host: ${MAIL_HOST:}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail.smtp.auth: ${MAIL_SMTP_AUTH:true}
+      mail.smtp.starttls.enable: ${MAIL_STARTTLS:true}
+      mail.smtp.connectiontimeout: 10000
+      mail.smtp.timeout: 10000
+      mail.smtp.writetimeout: 10000
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
+
+management:
+  health:
+    # Une panne du fournisseur d'emails ne doit pas faire redemarrer l'API
+    mail:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+app:
+  # URL publique de l'application (sert aux liens des QR codes et aux redirections Google)
+  frontend-url: ${APP_FRONTEND_URL:http://localhost:8088}
+  jwt-secret: ${JWT_SECRET:}
+  jwt-validite-minutes: ${JWT_VALIDITE_MINUTES:480}
+  # Cle de chiffrement des secrets 2FA en base
+  cle-chiffrement: ${APP_CLE_CHIFFREMENT:}
+  admin-email: ${ADMIN_EMAIL:}
+  admin-mot-de-passe: ${ADMIN_PASSWORD:}
+  google-client-id: ${GOOGLE_CLIENT_ID:}
+  google-client-secret: ${GOOGLE_CLIENT_SECRET:}
+  mail-expediteur: ${MAIL_FROM:MadeQrCard <noreply@madeqrcard.sn>}

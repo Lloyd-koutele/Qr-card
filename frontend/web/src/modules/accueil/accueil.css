@@ -1,0 +1,6 @@
+/* ---------- Accueil ---------- */
+.accueil { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 480px); gap: 40px; align-items: center; padding: 24px 0; }
+.accueil h1 { font-size: 36px; line-height: 1.15; margin-bottom: 12px; }
+.accueil p { color: var(--texte-2); font-size: 17px; }
+@media (max-width: 860px) { .accueil { grid-template-columns: 1fr; } .accueil h1 { font-size: 28px; } }
+.accueil p.accueil-organisation { font-size: 15px; margin: 24px 0 10px; }

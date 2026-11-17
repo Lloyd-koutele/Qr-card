@@ -1,0 +1,24 @@
+# Routage de MadeQrCard par son propre Traefik (service "traefik" de docker-compose.yml).
+# Traefik rejoint le client web par le reseau Docker du projet : aucun port de la machine
+# n'est utilise entre les deux.
+http:
+  routers:
+    madeqrcard:
+      rule: "Host(`madeqrcard.sn`)"
+      entryPoints:
+        - websecure
+      tls: {}
+      service: madeqrcard-web
+
+  services:
+    madeqrcard-web:
+      loadBalancer:
+        servers:
+          - url: "http://madeqrcard-web:80"
+
+# Certificat local genere par : mkcert madeqrcard.sn (dans traefik/certs, non versionne).
+# En production, remplacer par un resolveur Let's Encrypt.
+tls:
+  certificates:
+    - certFile: /etc/traefik/certs/madeqrcard.sn.pem
+      keyFile: /etc/traefik/certs/madeqrcard.sn-key.pem
